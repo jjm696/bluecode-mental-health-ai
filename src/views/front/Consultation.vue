@@ -219,6 +219,10 @@ const sendMessage = async () => {
   if (!ensureLogin()) return
   if (!draft.value.trim()) return
 
+  if (document.activeElement && typeof document.activeElement.blur === 'function') {
+    document.activeElement.blur()
+  }
+
   const pendingText = draft.value.trim()
   sending.value = true
   messages.value.push({

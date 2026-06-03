@@ -100,6 +100,10 @@ const saved = ref(false)
 const saving = ref(false)
 
 const saveDiary = async () => {
+  if (document.activeElement && typeof document.activeElement.blur === 'function') {
+    document.activeElement.blur()
+  }
+
   if (!content.value.trim()) {
     ElMessage.warning('先写下一点今天的状态')
     return
