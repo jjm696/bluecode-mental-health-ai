@@ -197,35 +197,48 @@ const features = [
 
 @media (max-width: 640px) {
   .home-container {
-    padding-bottom: 28px;
-    background: linear-gradient(180deg, rgba(74, 156, 140, 0.96) 0%, rgba(94, 169, 154, 0.92) 46%, #f7fbfa 46%, #f7fbfa 100%);
+    padding-bottom: 22px;
+    background:
+      radial-gradient(circle at 82% 8%, rgba(255, 216, 118, 0.55), transparent 28%),
+      linear-gradient(180deg, #e9fbf5 0%, #f8fafc 54%, #ffffff 100%);
   }
 
   .hero-section {
-    padding: 22px 16px 18px;
+    padding: 14px 14px 10px;
   }
 
   .hero-inner {
-    gap: 22px;
-    align-items: flex-start;
+    position: relative;
+    display: block;
+    padding: 22px 18px 18px;
+    overflow: hidden;
+    border-radius: 28px;
+    background:
+      linear-gradient(145deg, rgba(18, 119, 105, 0.96), rgba(48, 156, 137, 0.9)),
+      linear-gradient(180deg, #ffffff, #ecfdf5);
+    box-shadow: 0 18px 44px rgba(15, 118, 110, 0.2);
   }
 
   .title {
-    font-size: 40px;
+    max-width: 260px;
+    font-size: 36px;
     line-height: 1.12;
   }
 
   .sub-title {
-    font-size: 32px;
+    font-size: 30px;
     margin-bottom: 14px;
   }
 
   .intro {
+    max-width: 280px;
     font-size: 15px;
     line-height: 1.75;
   }
 
   .hero-actions {
+    position: relative;
+    z-index: 2;
     width: 100%;
     gap: 10px;
     margin-top: 22px;
@@ -234,25 +247,33 @@ const features = [
   .hero-actions a,
   .hero-actions :deep(.el-button) {
     width: 100%;
+    height: 46px;
+    border-radius: 16px;
+    font-weight: 700;
   }
 
   .robot {
-    align-self: center;
-    width: 190px;
-    height: 190px;
+    position: absolute;
+    right: -22px;
+    bottom: 94px;
+    width: 142px;
+    height: 142px;
+    border: none;
+    background: rgba(255, 255, 255, 0.14);
+    box-shadow: none;
   }
 
   .robot-image {
-    width: 110px;
-    height: 110px;
+    width: 84px;
+    height: 84px;
   }
 
   .feature-section {
-    padding: 18px 16px 0;
+    padding: 18px 14px 0;
   }
 
   .section-header h2 {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1.35;
   }
 
@@ -261,8 +282,30 @@ const features = [
   }
 
   .feature-card {
-    padding: 18px 16px;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    column-gap: 12px;
+    align-items: center;
+    padding: 16px;
     border-radius: 18px;
+    background: white;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
+  }
+
+  .feature-icon {
+    grid-row: span 2;
+    width: 40px;
+    height: 40px;
+  }
+
+  .feature-card h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+  }
+
+  .feature-card p {
+    font-size: 13px;
+    line-height: 1.55;
   }
 }
 </style>

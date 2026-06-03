@@ -280,4 +280,112 @@ onBeforeUnmount(() => {
     line-height: 1.65;
   }
 }
+
+@media (max-width: 640px) {
+  .records-page {
+    background:
+      radial-gradient(circle at 12% 0%, rgba(20, 184, 166, 0.16), transparent 30%),
+      linear-gradient(180deg, #f8fafc 0%, #f0fdfa 100%);
+  }
+
+  .records-header {
+    padding: 18px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.94), rgba(20, 184, 166, 0.76));
+    color: white;
+    box-shadow: 0 18px 38px rgba(15, 118, 110, 0.18);
+  }
+
+  .records-header h1,
+  .records-header p,
+  .eyebrow {
+    color: white;
+  }
+
+  .records-header p {
+    opacity: 0.9;
+  }
+
+  .records-panel {
+    border: 1px solid rgba(255, 255, 255, 0.86);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+  }
+
+  .record-card {
+    background: #f8fafc;
+    border: 1px solid rgba(226, 232, 240, 0.7);
+  }
+}
+
+@media (max-width: 640px) {
+  .records-page {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(20, 184, 166, 0.14), transparent 30%),
+      linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  }
+
+  .records-header {
+    padding: 16px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.94), rgba(20, 184, 166, 0.78));
+    box-shadow: 0 16px 36px rgba(15, 118, 110, 0.16);
+  }
+
+  .records-header h1,
+  .records-header p,
+  .eyebrow {
+    color: white;
+  }
+
+  .records-header p {
+    opacity: 0.9;
+  }
+
+  .records-panel {
+    border: 1px solid rgba(226, 232, 240, 0.72);
+    background: rgba(255, 255, 255, 0.94);
+  }
+
+  .record-card {
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+  }
+}
+
+@media (max-width: 640px) {
+  .records-page {
+    background:
+      radial-gradient(circle at 90% 4%, rgba(14, 165, 233, 0.12), transparent 32%),
+      linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  }
+
+  .records-header {
+    padding: 18px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.94), rgba(20, 184, 166, 0.72));
+    box-shadow: 0 16px 36px rgba(15, 118, 110, 0.16);
+  }
+
+  .records-header h1,
+  .records-header p,
+  .eyebrow {
+    color: white;
+  }
+
+  .records-header p {
+    opacity: 0.9;
+  }
+
+  .records-panel {
+    border: 1px solid rgba(226, 232, 240, 0.76);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+  }
+
+  .record-card {
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+    border: 1px solid #eef2f7;
+  }
+}
 </style>

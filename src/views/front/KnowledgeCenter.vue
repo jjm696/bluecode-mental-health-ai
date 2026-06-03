@@ -331,4 +331,94 @@ onMounted(async () => {
     gap: 4px;
   }
 }
+
+@media (max-width: 640px) {
+  .knowledge-container {
+    background:
+      radial-gradient(circle at 88% 2%, rgba(139, 92, 246, 0.14), transparent 30%),
+      linear-gradient(180deg, #fff7ed 0%, #f8fafc 48%, #ffffff 100%);
+  }
+
+  .header-section {
+    margin: 10px 10px 0;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #f59e0b 0%, #0f766e 100%);
+    box-shadow: 0 18px 38px rgba(245, 158, 11, 0.18);
+  }
+
+  .recommend-section,
+  .article-item {
+    border: 1px solid rgba(226, 232, 240, 0.72);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+  }
+
+  .recommend-item {
+    border-left-color: #0f766e;
+  }
+
+  .cover-image {
+    background: #ecfdf5;
+  }
+}
+
+@media (max-width: 640px) {
+  .knowledge-container {
+    background:
+      radial-gradient(circle at 86% 0%, rgba(245, 158, 11, 0.16), transparent 30%),
+      linear-gradient(180deg, #fff7ed 0%, #f8fafc 44%, #ffffff 100%);
+  }
+
+  .header-section {
+    margin: 10px 10px 0;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #f59e0b 0%, #0f766e 100%);
+    box-shadow: 0 18px 40px rgba(245, 158, 11, 0.16);
+  }
+
+  .recommend-section,
+  .article-item {
+    border: 1px solid rgba(226, 232, 240, 0.72);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  }
+
+  .recommend-item {
+    border-left-color: #0f766e;
+  }
+
+  .cover-image {
+    background: #ecfdf5;
+  }
+}
+
+@media (max-width: 640px) {
+  .knowledge-container {
+    background:
+      radial-gradient(circle at 12% 0%, rgba(245, 158, 11, 0.14), transparent 30%),
+      linear-gradient(180deg, #fffaf0 0%, #f8fafc 48%, #ffffff 100%);
+  }
+
+  .header-section {
+    margin: 10px 10px 0;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #f59e0b 0%, #0f766e 100%);
+    box-shadow: 0 16px 36px rgba(245, 158, 11, 0.16);
+  }
+
+  .recommend-section,
+  .article-item {
+    border: 1px solid rgba(226, 232, 240, 0.76);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+  }
+
+  .recommend-item {
+    border-left-color: #0f766e;
+  }
+
+  .cover-image {
+    background: #ecfdf5;
+  }
+}
 </style>

@@ -29,7 +29,7 @@
           <template v-else>
             <RouterLink class="register-link" to="/login">登录</RouterLink>
           </template>
-          <RouterLink v-if="userStore.isLoggedIn" class="text-link" to="/my-records">我的记录</RouterLink>
+          <RouterLink v-if="userStore.isLoggedIn" class="text-link records-link" to="/my-records">我的记录</RouterLink>
         </div>
       </div>
     </header>
@@ -37,6 +37,29 @@
     <main class="page-body">
       <router-view />
     </main>
+
+    <nav class="mobile-tabbar">
+      <RouterLink class="mobile-tab" to="/">
+        <span class="tab-icon">⌂</span>
+        <span>首页</span>
+      </RouterLink>
+      <RouterLink class="mobile-tab" to="/knowledge">
+        <span class="tab-icon">□</span>
+        <span>知识</span>
+      </RouterLink>
+      <RouterLink class="mobile-tab primary" to="/consultation">
+        <span class="tab-icon">✦</span>
+        <span>咨询</span>
+      </RouterLink>
+      <RouterLink class="mobile-tab" to="/emotion-diary">
+        <span class="tab-icon">◌</span>
+        <span>日记</span>
+      </RouterLink>
+      <RouterLink class="mobile-tab" to="/my-records">
+        <span class="tab-icon">≡</span>
+        <span>记录</span>
+      </RouterLink>
+    </nav>
 
     <footer class="footer-container">
       <div class="footer-bottom">
@@ -129,6 +152,12 @@ const handleLogout = () => {
   color: #ea580c;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .text-link {
   color: #374151;
   font-weight: 700;
@@ -164,6 +193,10 @@ const handleLogout = () => {
   flex: 1;
 }
 
+.mobile-tabbar {
+  display: none;
+}
+
 .footer-container {
   margin-top: auto;
   background: #1f2937;
@@ -196,12 +229,14 @@ const handleLogout = () => {
 
 @media (max-width: 640px) {
   .site-header {
-    position: sticky;
+    background: rgba(255, 255, 255, 0.94);
   }
 
   .navbar-container {
-    padding: 10px 14px 12px;
-    gap: 10px;
+    height: 58px;
+    padding: 0 14px;
+    gap: 8px;
+    flex-wrap: nowrap;
   }
 
   .brand-section {
@@ -210,29 +245,30 @@ const handleLogout = () => {
   }
 
   .brand-logo {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
   }
 
   .brand-name {
     margin-left: 8px;
-    font-size: 18px;
+    font-size: 17px;
     white-space: nowrap;
   }
 
+  .nav-section,
+  .records-link {
+    display: none;
+  }
+
   .header-actions {
-    display: flex;
-    align-items: center;
     gap: 8px;
-    max-width: 100%;
-    flex-wrap: wrap;
-    justify-content: flex-end;
   }
 
   .user-pill {
-    max-width: 136px;
+    max-width: 118px;
     padding: 4px 8px 4px 4px;
     gap: 6px;
+    font-size: 13px;
   }
 
   .user-pill span {
@@ -241,37 +277,83 @@ const handleLogout = () => {
     white-space: nowrap;
   }
 
+  .button-link,
+  .register-link {
+    font-size: 13px;
+  }
+
   .register-link {
     padding: 8px 12px;
   }
 
-  .nav-section {
-    width: calc(100% + 28px);
-    margin: 4px -14px 0;
-    padding: 4px 14px 2px;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    gap: 18px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .nav-section::-webkit-scrollbar {
-    display: none;
-  }
-
-  .nav-link {
-    flex: 0 0 auto;
-    font-size: 14px;
+  .page-body {
+    padding-bottom: 76px;
   }
 
   .footer-container {
-    padding: 12px 0;
+    display: none;
   }
 
-  .footer-bottom {
+  .mobile-tabbar {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    z-index: 30;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+    padding: 8px;
+    border: 1px solid rgba(226, 232, 240, 0.82);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 18px 50px rgba(31, 41, 55, 0.18);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-tab {
+    min-width: 0;
+    height: 50px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: #64748b;
     font-size: 12px;
-    line-height: 1.6;
+    font-weight: 700;
+  }
+
+  .tab-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #cbd5e1;
+    color: transparent;
+    font-size: 0;
+    line-height: 1;
+  }
+
+  .primary .tab-icon {
+    width: 22px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.86);
+  }
+
+  .mobile-tab.router-link-active {
+    color: #0f766e;
+    background: #ecfdf5;
+  }
+
+  .mobile-tab.primary {
+    color: white;
+    background: linear-gradient(135deg, #fb923c 0%, #f59e0b 100%);
+    box-shadow: 0 10px 24px rgba(245, 158, 11, 0.28);
+  }
+
+  .mobile-tab.primary.router-link-active {
+    color: white;
   }
 }
 </style>

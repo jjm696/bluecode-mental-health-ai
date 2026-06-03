@@ -350,4 +350,101 @@ const saveDiary = async () => {
     line-height: 1.6;
   }
 }
+
+@media (max-width: 640px) {
+  .emotionDiary-container {
+    background:
+      radial-gradient(circle at 90% 4%, rgba(245, 158, 11, 0.18), transparent 30%),
+      linear-gradient(180deg, #f7fee7 0%, #fff7ed 42%, #f8fafc 100%);
+  }
+
+  .header-section {
+    margin: 10px 10px 0;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #65a30d 0%, #f59e0b 100%);
+    box-shadow: 0 18px 38px rgba(132, 204, 22, 0.18);
+  }
+
+  .diary-card {
+    border: 1px solid rgba(255, 255, 255, 0.86);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+  }
+
+  .emotion-card {
+    background: white;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .emotion-card.selected {
+    box-shadow: 0 10px 24px rgba(126, 211, 33, 0.18);
+  }
+
+  .summary-box {
+    background: #f7fee7;
+  }
+}
+
+@media (max-width: 640px) {
+  .emotionDiary-container {
+    background:
+      radial-gradient(circle at 12% 0%, rgba(126, 211, 33, 0.14), transparent 30%),
+      radial-gradient(circle at 92% 10%, rgba(245, 158, 11, 0.18), transparent 30%),
+      linear-gradient(180deg, #f7fffb 0%, #fffaf0 48%, #ffffff 100%);
+  }
+
+  .header-section {
+    margin: 10px 10px 0;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #0f766e 0%, #f59e0b 100%);
+    box-shadow: 0 18px 42px rgba(15, 118, 110, 0.16);
+  }
+
+  .diary-card {
+    border: 1px solid rgba(226, 232, 240, 0.72);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+  }
+
+  .emotion-card {
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .emotion-card.selected {
+    box-shadow: 0 10px 24px rgba(126, 211, 33, 0.2);
+  }
+}
+
+@media (max-width: 640px) {
+  .emotionDiary-container {
+    background:
+      radial-gradient(circle at 12% 8%, rgba(126, 211, 33, 0.18), transparent 30%),
+      linear-gradient(180deg, #f7fffb 0%, #fffaf0 48%, #f8fafc 100%);
+  }
+
+  .header-section {
+    margin: 10px 10px 0;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #20a36f 0%, #f59e0b 100%);
+    box-shadow: 0 18px 40px rgba(34, 197, 94, 0.16);
+  }
+
+  .diary-card {
+    border: 1px solid rgba(226, 232, 240, 0.72);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  }
+
+  .emotion-card {
+    background: white;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .emotion-card.selected {
+    box-shadow: 0 12px 24px rgba(126, 211, 33, 0.18);
+  }
+
+  .summary-box {
+    background: #f0fdf4;
+  }
+}
 </style>
