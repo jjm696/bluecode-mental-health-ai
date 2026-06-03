@@ -193,4 +193,85 @@ const handleLogout = () => {
     flex-wrap: wrap;
   }
 }
+
+@media (max-width: 640px) {
+  .site-header {
+    position: sticky;
+  }
+
+  .navbar-container {
+    padding: 10px 14px 12px;
+    gap: 10px;
+  }
+
+  .brand-section {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .brand-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .brand-name {
+    margin-left: 8px;
+    font-size: 18px;
+    white-space: nowrap;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .user-pill {
+    max-width: 136px;
+    padding: 4px 8px 4px 4px;
+    gap: 6px;
+  }
+
+  .user-pill span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .register-link {
+    padding: 8px 12px;
+  }
+
+  .nav-section {
+    width: calc(100% + 28px);
+    margin: 4px -14px 0;
+    padding: 4px 14px 2px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-section::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-link {
+    flex: 0 0 auto;
+    font-size: 14px;
+  }
+
+  .footer-container {
+    padding: 12px 0;
+  }
+
+  .footer-bottom {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+}
 </style>

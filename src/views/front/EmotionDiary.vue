@@ -261,4 +261,93 @@ const saveDiary = async () => {
     align-items: stretch;
   }
 }
+
+@media (max-width: 640px) {
+  .emotionDiary-container {
+    min-height: calc(100vh - 120px);
+  }
+
+  .header-section {
+    padding: 28px 14px;
+  }
+
+  .header-content {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .header-content h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+  }
+
+  .header-content p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .content {
+    width: calc(100% - 20px);
+    padding: 14px 0 24px;
+  }
+
+  .diary-card {
+    margin-bottom: 14px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .title {
+    margin-bottom: 14px;
+    font-size: 20px;
+    line-height: 1.35;
+  }
+
+  .emotion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .emotion-card {
+    width: auto;
+    min-height: 104px;
+    padding: 12px 6px;
+    border-radius: 14px;
+  }
+
+  .emotion-card img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .emotion-name {
+    margin-top: 8px;
+    font-size: 13px;
+  }
+
+  .section p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .life-indicators {
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .action-buttons :deep(.el-button) {
+    width: 100%;
+  }
+
+  .save-tip {
+    line-height: 1.6;
+  }
+}
 </style>

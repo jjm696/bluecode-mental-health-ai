@@ -185,4 +185,82 @@ onMounted(async () => {
   flex-wrap: wrap;
   gap: 10px;
 }
+
+@media (max-width: 640px) {
+  .header-section {
+    padding: 28px 14px;
+  }
+
+  .header-content {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  .header-content h1 {
+    margin: 0;
+    font-size: 25px;
+    line-height: 1.35;
+  }
+
+  .header-content p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .content {
+    width: calc(100% - 20px);
+    padding: 14px 0 26px;
+  }
+
+  .detail-actions {
+    margin-bottom: 12px;
+  }
+
+  .back-button {
+    font-size: 14px;
+  }
+
+  .diary-card,
+  .status-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .sub-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .flex-box {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 13px;
+  }
+
+  .article-title {
+    margin: 18px 0 12px;
+    font-size: 24px;
+    line-height: 1.35;
+  }
+
+  .summary-content {
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .content-wrapper {
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 1.85;
+  }
+}
 </style>

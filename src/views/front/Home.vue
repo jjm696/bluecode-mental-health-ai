@@ -194,4 +194,75 @@ const features = [
     flex-direction: column;
   }
 }
+
+@media (max-width: 640px) {
+  .home-container {
+    padding-bottom: 28px;
+    background: linear-gradient(180deg, rgba(74, 156, 140, 0.96) 0%, rgba(94, 169, 154, 0.92) 46%, #f7fbfa 46%, #f7fbfa 100%);
+  }
+
+  .hero-section {
+    padding: 22px 16px 18px;
+  }
+
+  .hero-inner {
+    gap: 22px;
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: 40px;
+    line-height: 1.12;
+  }
+
+  .sub-title {
+    font-size: 32px;
+    margin-bottom: 14px;
+  }
+
+  .intro {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .hero-actions {
+    width: 100%;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .hero-actions a,
+  .hero-actions :deep(.el-button) {
+    width: 100%;
+  }
+
+  .robot {
+    align-self: center;
+    width: 190px;
+    height: 190px;
+  }
+
+  .robot-image {
+    width: 110px;
+    height: 110px;
+  }
+
+  .feature-section {
+    padding: 18px 16px 0;
+  }
+
+  .section-header h2 {
+    font-size: 24px;
+    line-height: 1.35;
+  }
+
+  .feature-grid {
+    gap: 12px;
+  }
+
+  .feature-card {
+    padding: 18px 16px;
+    border-radius: 18px;
+  }
+}
 </style>

@@ -127,7 +127,7 @@ public class ConsultationService {
 
         List<ConsultationMessageRow> history = consultationMapper.selectMessages(sessionId);
         List<Map<String, String>> messages = new ArrayList<Map<String, String>>();
-        messages.add(systemPrompt(request.getContent()));
+        messages.add(systemPrompt(request.getContent(), history.size()));
         for (ConsultationMessageRow item : history) {
             Map<String, String> message = new HashMap<String, String>();
             message.put("role", "user".equals(item.getRole()) ? "user" : "assistant");
@@ -148,7 +148,7 @@ public class ConsultationService {
         String detectedScene = detectScene(request.getContent());
         String dominantEmotion = guessEmotion(request.getContent());
         int riskLevel = guessRiskLevel(request.getContent());
-        updateRecord.setSummary(buildSessionSummary(request.getContent(), aiReply, detectedScene, dominantEmotion, riskLevel));
+        updateRecord.setSummary(buildSessionSummary(aiReply, detectedScene, dominantEmotion, riskLevel));
         updateRecord.setDominantEmotion(dominantEmotion);
         updateRecord.setRiskLevel(riskLevel);
         updateRecord.setMessageIncrement(2);
@@ -167,50 +167,74 @@ public class ConsultationService {
         return response;
     }
 
-    private Map<String, String> systemPrompt(String userInput) {
+    private Map<String, String> systemPrompt(String userInput, int historySize) {
         String scene = detectScene(userInput);
         boolean highRisk = isHighRisk(userInput);
+        String stage = resolveConversationStage(historySize, highRisk);
 
         Map<String, String> prompt = new HashMap<String, String>();
         prompt.put("role", "system");
         prompt.put("content",
-            "你是一位中文心理健康陪伴助手，名字叫“暖光”。" +
-            "你的目标不是直接给结论，而是帮助用户更安全、更自然地表达情绪，逐步看清自己的感受与压力来源。" +
-            "请严格遵守以下规则：" +
-            "1. 回复语气必须温和、耐心、不过度积极，不要像客服，不要机械安慰。" +
-            "2. 当用户表达“累、烦、焦虑、难受、委屈、崩溃、睡不着、压力大”等感受时，优先做共情和情绪命名，例如帮助用户识别疲惫、紧绷、无力、自责、孤独等状态。" +
-            "3. 每次回复尽量包含这三步中的两步：先接住情绪，再简短反映用户处境，最后给一个温和的问题或一个很小的引导动作。" +
-            "4. 优先使用开放式引导，帮助用户继续说，比如“这种累更像身体上的，还是心里一直绷着的那种？”" +
-            "5. 如果用户只说一句“我好累”“压力好大”，不要直接讲大道理，要先帮助他展开：累从什么时候开始、最压人的部分是什么、有没有具体触发事件。" +
-            "6. 可以给非常轻量的支持建议，例如呼吸、暂停、自我观察、写下一句话，但不要一次给太多步骤。" +
-            "7. 不要进行医疗诊断，不要声称自己是医生，不要夸大疗效。" +
-            "8. 如果用户出现明显的自伤、自杀、绝望、活不下去等高风险表达，要立即提醒寻求现实中的紧急帮助和可信任的人支持。" +
-            "9. 回复长度控制在80到180字之间，避免过长说教。" +
-            "10. 回复中尽量少用模板化套话，多结合用户刚刚说的原句。" +
+            "你是中文心理健康陪伴助手，名字叫“暖光”。你的定位是陪伴、倾听、澄清和轻量支持，不做医疗诊断，不承诺治疗效果。\n" +
+            "核心目标：让用户更安全、更自然地表达情绪，逐步看清压力来源，并在合适时给出一个小而可执行的建议。\n\n" +
+            "对话总原则：\n" +
+            "1. 先接住情绪，再反映处境，最后只给一个开放问题或一个很小的行动建议。\n" +
+            "2. 不要一上来讲道理、列清单、催促积极，也不要使用客服式套话。\n" +
+            "3. 每次回复尽量结合用户刚说过的原句，让用户感到被具体听见。\n" +
+            "4. 如果用户只说“好累”“压力大”“不知道怎么办”，优先帮助展开：从什么时候开始、最压人的部分是什么、身体和心里哪个更明显。\n" +
+            "5. 建议要轻量，例如停下来喝水、做三轮慢呼吸、写下一句最真实的感受、把任务拆成下一小步；不要一次给太多步骤。\n" +
+            "6. 回复控制在 80 到 180 字之间，语气温和、稳定、不过度煽情。\n" +
+            "7. 避免诊断词和绝对判断，例如“你就是抑郁症”“一定会好起来”。\n\n" +
+            buildStageGuidance(stage) +
             buildSceneGuidance(scene) +
             buildRiskGuidance(highRisk) +
-            "示例风格：" +
-            "用户：我今天好累。 " +
-            "你：听起来你不是单纯的困，更像整个人都被压住了。这样的累是从今天某件事开始的，还是已经持续了一阵子？如果你愿意，可以先说说今天最让你心里发沉的一刻。"
+            "推荐回复结构：共情一句 + 具体反映一句 + 一个温和问题或一个微行动。\n" +
+            "示例：听起来你不是单纯困，而是整个人都被压住了一些。先不用急着把问题解决掉，我们可以先看清它：这种累更像身体透支，还是心里一直绷着的那种累？"
         );
         return prompt;
     }
 
+    private String resolveConversationStage(int historySize, boolean highRisk) {
+        if (highRisk) {
+            return "RISK_ALERT";
+        }
+        if (historySize <= 2) {
+            return "EXPRESSING";
+        }
+        if (historySize <= 6) {
+            return "CLARIFYING";
+        }
+        return "SUPPORTING";
+    }
+
+    private String buildStageGuidance(String stage) {
+        if ("RISK_ALERT".equals(stage)) {
+            return "当前阶段：安全优先。请明确表达重视，建议用户立刻联系现实中的可信任的人，并在有即时危险时寻求当地紧急帮助。\n";
+        }
+        if ("EXPRESSING".equals(stage)) {
+            return "当前阶段：刚开始倾诉。请少给建议，重点是接住情绪、降低表达门槛，让用户愿意继续说。\n";
+        }
+        if ("CLARIFYING".equals(stage)) {
+            return "当前阶段：澄清情绪来源。请帮助用户区分事件、感受、想法和身体反应，问题要具体但不审问。\n";
+        }
+        return "当前阶段：轻量支持。可以给一个可执行的小建议，并询问这个建议对用户来说是否可行。\n";
+    }
+
     private String detectScene(String content) {
         String text = content == null ? "" : content;
-        if (containsAny(text, "活不下去", "不想活", "想消失", "崩溃", "绝望", "自杀", "伤害自己")) {
+        if (containsAny(text, "活不下去", "不想活", "想消失", "崩溃", "绝望", "自杀", "自残", "伤害自己")) {
             return "HIGH_RISK";
         }
-        if (containsAny(text, "累", "疲惫", "压力", "撑不住", "好忙", "压得喘不过气")) {
+        if (containsAny(text, "累", "疲惫", "压力", "撑不住", "好忙", "压得喘不过气", "透支")) {
             return "FATIGUE";
         }
-        if (containsAny(text, "焦虑", "紧张", "心慌", "失眠", "担心", "害怕")) {
+        if (containsAny(text, "焦虑", "紧张", "心慌", "失眠", "担心", "害怕", "恐惧")) {
             return "ANXIETY";
         }
-        if (containsAny(text, "难过", "悲伤", "低落", "委屈", "没意义", "不开心")) {
+        if (containsAny(text, "难过", "悲伤", "低落", "委屈", "没意义", "不开心", "空虚")) {
             return "LOW_MOOD";
         }
-        if (containsAny(text, "朋友", "家人", "对象", "吵架", "关系", "冷战")) {
+        if (containsAny(text, "朋友", "家人", "对象", "恋爱", "吵架", "关系", "冷战", "同学", "同事")) {
             return "RELATIONSHIP";
         }
         return "GENERAL";
@@ -218,28 +242,28 @@ public class ConsultationService {
 
     private String buildSceneGuidance(String scene) {
         if ("FATIGUE".equals(scene)) {
-            return "当前用户更可能处于疲惫或压力过载状态。请优先帮助用户区分身体累和心理绷紧，先接住无力感，再引导他说出最压人的来源。";
+            return "场景策略：用户可能处于疲惫或压力过载。先帮助区分身体累和心理绷紧，再引导他说出最压人的来源。\n";
         }
         if ("ANXIETY".equals(scene)) {
-            return "当前用户更可能处于焦虑或紧张状态。请优先帮助用户识别担心的对象、最糟糕的预期和身体反应，再用温和问题帮助用户落到具体场景。";
+            return "场景策略：用户可能处于焦虑或紧张。先帮助定位正在担心什么、最糟预期是什么、身体有什么反应，再给稳定感。\n";
         }
         if ("LOW_MOOD".equals(scene)) {
-            return "当前用户更可能处于低落、委屈或悲伤状态。请优先接住情绪，不要催促积极化，先帮助用户说清楚受伤点和失落感来自哪里。";
+            return "场景策略：用户可能处于低落、委屈或悲伤。不要催促积极，先承认难受是真实的，再询问最近最刺痛他的部分。\n";
         }
         if ("RELATIONSHIP".equals(scene)) {
-            return "当前用户更可能处于人际关系困扰。请优先帮助用户区分事实、猜测和情绪反应，避免直接评判谁对谁错。";
+            return "场景策略：用户可能处于关系困扰。帮助区分事实、猜测和情绪反应，不直接评判谁对谁错。\n";
         }
         if ("HIGH_RISK".equals(scene)) {
-            return "当前用户可能出现高风险表达。请明显提高安全优先级，先表达重视，再鼓励立刻联系现实中的可信任亲友、家人或当地紧急援助资源。不要轻描淡写带过。";
+            return "场景策略：用户可能出现高风险表达。安全优先，回复必须包含现实支持和紧急求助提醒。\n";
         }
-        return "当前用户处于一般情绪表达场景。请用温和、开放式问题帮助其继续表达。";
+        return "场景策略：一般倾诉。使用开放问题帮助用户继续表达，避免过早建议。\n";
     }
 
     private String buildRiskGuidance(boolean highRisk) {
         if (!highRisk) {
             return "";
         }
-        return "如果用户存在明显危险信号，请在回复中明确建议：立即联系家人、朋友、老师、同事或当地心理危机干预热线，必要时前往医院或拨打紧急求助电话。";
+        return "高风险规则：如果用户表达自伤、自杀、活不下去或强烈绝望，请建议他立刻联系家人、朋友、老师、同事等可信任的人；如果有即时危险，请马上拨打当地紧急电话或前往医院急诊。不要只用安慰带过。\n";
     }
 
     private String buildSessionTitle(String content) {
@@ -250,7 +274,7 @@ public class ConsultationService {
         return text.length() > 12 ? text.substring(0, 12) + "..." : text;
     }
 
-    private String buildSessionSummary(String userInput, String aiReply, String scene, String dominantEmotion, int riskLevel) {
+    private String buildSessionSummary(String aiReply, String scene, String dominantEmotion, int riskLevel) {
         String sceneText = toSceneText(scene);
         String riskText = toRiskText(riskLevel);
         String suggestion = extractSuggestion(aiReply);
@@ -262,18 +286,19 @@ public class ConsultationService {
 
     private String guessEmotion(String content) {
         String text = content == null ? "" : content;
-        if (containsAny(text, "焦虑", "紧张", "心慌", "担心", "害怕")) return "焦虑";
-        if (containsAny(text, "难过", "悲伤", "低落", "委屈")) return "悲伤";
-        if (containsAny(text, "累", "疲惫", "撑不住", "压力")) return "压力";
-        if (containsAny(text, "吵架", "朋友", "家人", "对象", "冷战")) return "沮丧";
+        if (containsAny(text, "焦虑", "紧张", "心慌", "担心", "害怕", "恐惧")) return "焦虑";
+        if (containsAny(text, "难过", "悲伤", "低落", "委屈", "空虚")) return "悲伤";
+        if (containsAny(text, "累", "疲惫", "撑不住", "压力", "透支")) return "压力";
+        if (containsAny(text, "吵架", "朋友", "家人", "对象", "冷战", "关系")) return "困扰";
+        if (containsAny(text, "开心", "轻松", "平静", "好多了")) return "平静";
         return "平静";
     }
 
     private int guessRiskLevel(String content) {
         String text = content == null ? "" : content;
-        if (containsAny(text, "活不下去", "不想活", "想消失", "自杀", "伤害自己")) return 3;
-        if (text.contains("崩溃") || text.contains("绝望")) return 2;
-        if (text.contains("焦虑") || text.contains("失眠")) return 1;
+        if (containsAny(text, "活不下去", "不想活", "想消失", "自杀", "自残", "伤害自己")) return 3;
+        if (containsAny(text, "崩溃", "绝望", "撑不住了")) return 2;
+        if (containsAny(text, "焦虑", "失眠", "压力", "低落", "难过")) return 1;
         return 0;
     }
 
@@ -285,7 +310,7 @@ public class ConsultationService {
         if ("FATIGUE".equals(scene)) return "疲惫压力";
         if ("ANXIETY".equals(scene)) return "焦虑紧张";
         if ("LOW_MOOD".equals(scene)) return "低落悲伤";
-        if ("RELATIONSHIP".equals(scene)) return "关系冲突";
+        if ("RELATIONSHIP".equals(scene)) return "关系困扰";
         if ("HIGH_RISK".equals(scene)) return "高风险求助";
         return "一般倾诉";
     }

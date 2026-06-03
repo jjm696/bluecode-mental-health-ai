@@ -241,4 +241,94 @@ onMounted(async () => {
     margin: 16px 0 0;
   }
 }
+
+@media (max-width: 640px) {
+  .header-section {
+    padding: 28px 14px;
+  }
+
+  .header-content {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  .header-content h1 {
+    font-size: 26px;
+  }
+
+  .header-content p {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .content {
+    gap: 14px;
+    padding: 14px 10px 26px;
+  }
+
+  .recommend-section {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .recommend-list {
+    gap: 10px;
+  }
+
+  .recommend-item {
+    display: block;
+    padding: 10px 0 10px 12px;
+  }
+
+  .read-count {
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .article-item {
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+  }
+
+  .cover-image {
+    width: 72px;
+    height: 72px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .info {
+    margin-top: 12px;
+  }
+
+  .title {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .title a {
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  .summary {
+    margin: 10px 0;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .meta-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
 </style>

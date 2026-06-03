@@ -3,7 +3,11 @@ package com.psychology.assistant.service;
 import com.psychology.assistant.config.AiProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -11,7 +15,9 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class AiChatService {
@@ -44,7 +50,7 @@ public class AiChatService {
             Map<String, Object> requestBody = new LinkedHashMap<String, Object>();
             requestBody.put("model", aiProperties.getModel());
             requestBody.put("messages", messages);
-            requestBody.put("temperature", 0.7);
+            requestBody.put("temperature", 0.72);
             requestBody.put("stream", false);
 
             HttpHeaders headers = new HttpHeaders();
@@ -146,7 +152,7 @@ public class AiChatService {
     private String fallbackReply(String userInput) {
         return "我听到你刚刚提到“"
             + shortText(userInput)
-            + "”。如果你现在有点累或者心里发紧，我们可以先不急着解决问题。你愿意先说说，这种感觉更像身体上的疲惫，还是心里一直绷着的那种累？";
+            + "”。我们先不急着解决问题，可以先把这份感受放清楚一点。它更像身体上的疲惫，还是心里一直绷着、放不下来的那种累？";
     }
 
     private String shortText(String text) {

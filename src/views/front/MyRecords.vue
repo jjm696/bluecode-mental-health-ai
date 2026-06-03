@@ -219,4 +219,65 @@ onBeforeUnmount(() => {
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 640px) {
+  .records-page {
+    padding: 20px 0 28px;
+  }
+
+  .records-shell {
+    width: calc(100% - 20px);
+  }
+
+  .records-header {
+    margin-bottom: 18px;
+  }
+
+  .records-header h1 {
+    font-size: 30px;
+  }
+
+  .records-header p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .records-grid {
+    gap: 14px;
+  }
+
+  .records-panel {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .panel-head {
+    margin-bottom: 14px;
+  }
+
+  .panel-head h2 {
+    font-size: 20px;
+  }
+
+  .record-list {
+    gap: 10px;
+  }
+
+  .record-card {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .record-top {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .record-card p {
+    margin: 10px 0;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+}
 </style>
