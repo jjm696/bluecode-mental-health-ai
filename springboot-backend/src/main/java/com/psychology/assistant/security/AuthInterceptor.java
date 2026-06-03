@@ -20,6 +20,10 @@ public class AuthInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
         String method = request.getMethod();
 
+        if ("OPTIONS".equalsIgnoreCase(method)) {
+            return true;
+        }
+
         if (uri.startsWith("/api/articles") && "GET".equalsIgnoreCase(method)) {
             return true;
         }
