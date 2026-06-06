@@ -35,9 +35,28 @@ export const request = async (path, options = {}) => {
     ...options,
   })
 
-  const result = await response.json()
+  const rawText = await response.text()
+  let result = null
 
-  if (!response.ok || result.code !== 0) {
+  if (rawText) {
+    try {
+      result = JSON.parse(rawText)
+    } catch (error) {
+      throw new Error(`接口返回的不是有效 JSON：HTTP ${response.status} ${response.statusText}`)
+    }
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      (result && result.message) || `请求失败：HTTP ${response.status} ${response.statusText}`
+    )
+  }
+
+  if (!result) {
+    throw new Error(`接口返回为空：HTTP ${response.status} ${response.statusText}`)
+  }
+
+  if (result.code !== 0) {
     throw new Error(result.message || '请求失败')
   }
 
